@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import utils.Waiter;
 
 public class _13_IFrameTest extends Base{
 
@@ -56,6 +57,7 @@ public class _13_IFrameTest extends Base{
 
         firstNameInputBox.sendKeys("John");
         lastNameInputBox.sendKeys("Doe");
+
         submitButton.click();
 
 

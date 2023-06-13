@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.Project2Page;
 import utils.Driver;
 
 public class _02_ProjectTest extends Base {
@@ -13,7 +14,7 @@ public class _02_ProjectTest extends Base {
     @BeforeMethod
     public void setUp(){
       driver.get("Navigate to https://techglobal-training.com/frontend/project-2");
-
+        project2Page = new Project2Page();
     }
 
 
@@ -36,27 +37,26 @@ Validate that the link text is “Forgot Password?”
     @Test (priority = 1)
     public void validateUserNameInputBox(){
 
-        WebElement usernameInputBox = driver.findElement(By.id("username"));
-        WebElement passwordInputBox = driver.findElement(By.id("password"));
-        WebElement labelUsernameBox = driver.findElement(By.cssSelector( "div:nth-child(1) > label"));
-        WebElement labelPasswordBox = driver.findElement(By.cssSelector("div:nth-child(2) > label"));
-        WebElement loginButton = driver.findElement(By.id("login_btn"));
-        WebElement forgotPassword = driver.findElement(By.cssSelector("div:nth-child(3) > a"));
+            Assert.assertTrue(project2Page.usernameInputBox.isDisplayed());
+            Assert.assertTrue(project2Page.usernameInputBox.isEnabled());
+            Assert.assertNotEquals(project2Page.usernameInputBox.getAttribute("required"), "true");
+            Assert.assertTrue(project2Page.usernameInputBoxLabel.isDisplayed());
+            Assert.assertEquals(project2Page.usernameInputBoxLabel.getText(), "Please enter your username");
 
-        Assert.assertTrue(usernameInputBox.isDisplayed());
-        Assert.assertNotEquals(usernameInputBox.getAttribute("required"), "true");
-        Assert.assertEquals(labelUsernameBox.getText(),"Please enter your username");
-        Assert.assertTrue(passwordInputBox.isDisplayed());
-        Assert.assertNotEquals(passwordInputBox.getAttribute("required"), "true");
-        Assert.assertEquals(labelPasswordBox.getText(),"Please enter your password");
-        Assert.assertTrue(loginButton.isDisplayed());
-        Assert.assertTrue(loginButton.isEnabled());
-        Assert.assertEquals(loginButton.getText(),"LOGIN");
+            Assert.assertTrue(project2Page.passwordInputBox.isDisplayed());
+            Assert.assertTrue(project2Page.passwordInputBox.isEnabled());
+            Assert.assertNotEquals(project2Page.passwordInputBox.getAttribute("required"), "true");
+            Assert.assertTrue(project2Page.passwordInputBoxLabel.isDisplayed());
+            Assert.assertEquals(project2Page.passwordInputBoxLabel.getText(), "Please enter your password");
 
-        Assert.assertTrue(forgotPassword.isDisplayed());
-        Assert.assertTrue(forgotPassword.isEnabled());
-        Assert.assertEquals(forgotPassword.getText(),"Forgot Password?");
-    }
+            Assert.assertTrue(project2Page.loginButton.isDisplayed());
+            Assert.assertTrue(project2Page.loginButton.isEnabled());
+            Assert.assertEquals(project2Page.loginButton.getText(), "LOGIN");
+
+            Assert.assertTrue(project2Page.forgotPasswordLink.isDisplayed());
+            Assert.assertTrue(project2Page.forgotPasswordLink.isEnabled());
+            Assert.assertEquals(project2Page.forgotPasswordLink.getText(), "Forgot Password?");
+        }
 
 
 
@@ -68,26 +68,16 @@ Click on the “LOGIN” button
 Validate the success message is displayed as “You are logged in”
 Validate the logout button displayed with the text “LOGOUT”
      */
-    @Test (priority = 2)
-    public void validateUsernameAndPassword(){
+    @Test(priority = 2, description = "Test Case 02 - Validate the valid login")
+    public void validateTheValidLogin(){
+        project2Page.login("TechGlobal", "Test1234");
 
-        WebElement usernameInputBox = driver.findElement(By.id("username"));
-        WebElement passwordInputBox = driver.findElement(By.id("password"));
-        WebElement loginButton = driver.findElement(By.id("login_btn"));
+        Assert.assertTrue(project2Page.successfulLoginMessage.isDisplayed());
+        Assert.assertEquals(project2Page.successfulLoginMessage.getText(), "You are logged in");
 
-
-        usernameInputBox.sendKeys("TechGlobal");
-        passwordInputBox.sendKeys("Test1234");
-        loginButton.click();
-
-        WebElement successMessage = driver.findElement(By.id("success_lgn"));
-
-        Assert.assertTrue(successMessage.isDisplayed());
-        Assert.assertEquals(successMessage.getText(),"You are logged in");
-
-        WebElement logoutButton = driver.findElement(By.id("logout"));
-        Assert.assertTrue(logoutButton.isDisplayed());
-        Assert.assertEquals(logoutButton.getText(),"LOGOUT");
+        Assert.assertTrue(project2Page.logoutButton.isDisplayed());
+        Assert.assertTrue(project2Page.logoutButton.isEnabled());
+        Assert.assertEquals(project2Page.logoutButton.getText(), "LOGOUT");
     }
 
     /*
@@ -100,26 +90,13 @@ Validate that the login form is displayed
      */
 
 
-    @Test (priority = 3)
-
-    public void validateInputUsernameAndPassword(){
-        WebElement usernameInputBox = driver.findElement(By.id("username"));
-        WebElement passwordInputBox = driver.findElement(By.id("password"));
-        WebElement loginButton = driver.findElement(By.id("login_btn"));
-
-
-       usernameInputBox.sendKeys("TechGlobal");
-       passwordInputBox.sendKeys("Test1234");
-       loginButton.click();
-
-
-
-        WebElement logoutButton = driver.findElement(By.id("logout"));
-        logoutButton.click();
-
-        WebElement loginForm = driver.findElement(By.cssSelector("div>form"));
-        Assert.assertTrue(loginForm.isDisplayed());
+    @Test(priority = 3, description = "Test Case 03 - Validate the logout")
+    public void validateTheLogOut(){
+        project2Page.login("TechGlobal", "Test1234");
+        project2Page.logoutButton.click();
+        Assert.assertTrue(project2Page.loginForm.isDisplayed());
     }
+
 
     /*
     Navigate to https://techglobal-training.com/frontend/project-2
@@ -133,27 +110,31 @@ Validate the “SUBMIT” button is clickable
 Validate that the button text is “SUBMIT”
      */
 
-    @Test (priority = 4)
-    public void validateForgotPasswordLink(){
-        WebElement forgotPassword = driver.findElement(By.cssSelector("div:nth-child(3) > a"));
-        forgotPassword.click();
+    @Test(priority = 4, description = "Test Case 04 - Validate the Forgot Password? Link and Reset Password modal")
+    public void validateTheForgotPasswordLinkAndResetPasswordModal(){
+        project2Page.forgotPasswordLink.click();
 
-        WebElement modalHeading = driver.findElement(By.id("modal_title"));
-        WebElement closeBtn = driver.findElement(By.cssSelector("header button"));
-        WebElement emailInputBox = driver.findElement(By.id("email"));
-        WebElement inputBoxLabel = driver.findElement(By.cssSelector("section label"));
-        WebElement submitBtn = driver.findElement(By.id("submit"));
+        Assert.assertTrue(project2Page.resetPasswordModalTitle.isDisplayed());
+        Assert.assertEquals(project2Page.resetPasswordModalTitle.getText(), "Reset Password");
 
-        Assert.assertTrue(modalHeading.isDisplayed());
-        Assert.assertTrue(closeBtn.isDisplayed());
-        Assert.assertTrue(emailInputBox.isDisplayed());
-        Assert.assertEquals(inputBoxLabel.getText(), "Enter your email address and we'll send you a link to reset your password.");
-        Assert.assertTrue(submitBtn.isDisplayed());
-        Assert.assertTrue(submitBtn.isEnabled());
-        Assert.assertEquals(submitBtn.getText(), "SUBMIT");
+        Assert.assertTrue(project2Page.resetPasswordModalCloseButton.isDisplayed());
+        Assert.assertTrue(project2Page.resetPasswordModalCloseButton.isEnabled());
 
+        Assert.assertTrue(project2Page.resetPasswordModalHeading.isDisplayed());
+        Assert.assertEquals(project2Page.resetPasswordModalHeading.getText(), "Reset Password");
 
+        Assert.assertTrue(project2Page.resetPasswordModalEmailInputBoxLabel.isDisplayed());
+        Assert.assertEquals(project2Page.resetPasswordModalEmailInputBoxLabel.getText(), "Enter your email address and we'll send you a link to reset your password.");
+
+        Assert.assertTrue(project2Page.resetPasswordModalEmailInputBox.isDisplayed());
+        Assert.assertTrue(project2Page.resetPasswordModalEmailInputBox.isEnabled());
+
+        Assert.assertTrue(project2Page.resetPasswordModalSubmitButton.isDisplayed());
+        Assert.assertTrue(project2Page.resetPasswordModalSubmitButton.isEnabled());
+        Assert.assertEquals(project2Page.resetPasswordModalSubmitButton.getText(), "SUBMIT");
     }
+
+
 
 
     /*
@@ -190,21 +171,14 @@ Validate the form message “A link to reset your password has been sent to your
      */
 
 
-    @Test (priority = 6)
+    @Test(priority = 6, description = "Test Case 06 - Validate the Reset Password form submission")
+    public void validateTheResetPasswordFormSubmission(){
+        project2Page.forgotPasswordLink.click();
+        project2Page.resetPasswordModalEmailInputBox.sendKeys("johndoe@gmail.com");
+        project2Page.resetPasswordModalSubmitButton.click();
 
-    public void enterEmailLinkForResetPassword(){
-        WebElement forgotPassword = driver.findElement(By.cssSelector("div:nth-child(3)>a"));
-        forgotPassword.click();
-
-        WebElement emailInput = driver.findElement(By.id("email"));
-        WebElement submitBtn = driver.findElement(By.id("submit"));
-        emailInput.sendKeys("aabcd@gmail.com");
-        submitBtn.click();
-
-        WebElement resetFormMessage = driver.findElement(By.cssSelector("section p"));
-        Assert.assertTrue(resetFormMessage.isDisplayed());
-        Assert.assertEquals(resetFormMessage.getText(), "A link to reset your password has been sent to your email address.");
-
+        Assert.assertTrue(project2Page.resetPasswordModalMessage.isDisplayed());
+        Assert.assertEquals(project2Page.resetPasswordModalMessage.getText(), "A link to reset your password has been sent to your email address.");
     }
 
     /*
@@ -216,14 +190,12 @@ Validate the failure message is displayed as “Invalid Username entered!” abo
      */
 
 
-    @Test (priority = 7)
+    @Test(priority = 7, description = "Test Case 07 - Validate the invalid login with the empty credentials")
+    public void validateTheInvalidLoginWithEmptyCredentials(){
+        project2Page.loginButton.click();
 
-    public void emptyCredentials(){
-        WebElement loginBtn = driver.findElement(By.id("login_btn"));
-        loginBtn.click();
-        WebElement errorMessage = driver.findElement(By.id("error_message"));
-        Assert.assertTrue(errorMessage.isDisplayed());
-        Assert.assertEquals(errorMessage.getText(), "Invalid Username entered!");
+        Assert.assertTrue(project2Page.errorMessage.isDisplayed());
+        Assert.assertEquals(project2Page.errorMessage.getText(), "Invalid Username entered!");
     }
 
     /*
@@ -234,20 +206,13 @@ Click on the “LOGIN” button
 Validate the failure message is displayed as “Invalid Username entered!” above the form
      */
 
-    @Test (priority = 8)
 
-    public void validateFailureMessageForInvalidUsername(){
-        WebElement usernameInputBox = driver.findElement(By.id("username"));
-        WebElement passwordInputBox = driver.findElement(By.id("password"));
-        WebElement loginBtn = driver.findElement(By.id("login_btn"));
+    @Test(priority = 8, description = "Test Case 08 - Validate the invalid login with the wrong username")
+    public void validateTheInvalidLoginWithTheWrongUsername(){
+        project2Page.login("John", "Test1234");
 
-        usernameInputBox.sendKeys("John");
-        passwordInputBox.sendKeys("Test1234");
-        loginBtn.click();
-
-        WebElement errorMessage = driver.findElement(By.id("error_message"));
-        Assert.assertTrue(errorMessage.isDisplayed());
-        Assert.assertEquals(errorMessage.getText(), "Invalid Username entered!");
+        Assert.assertTrue(project2Page.errorMessage.isDisplayed());
+        Assert.assertEquals(project2Page.errorMessage.getText(), "Invalid Username entered!");
     }
 
     /*
@@ -259,21 +224,14 @@ Validate the failure message is displayed as “Invalid Password entered!” abo
      */
 
 
-    @Test (priority = 9)
-    public void validateFailureMessageForInvalidPassword(){
-        WebElement usernameInputBox = driver.findElement(By.id("username"));
-        WebElement passwordInputBox = driver.findElement(By.id("password"));
-        WebElement loginBtn = driver.findElement(By.id("login_btn"));
+    @Test(priority = 9, description = "Test Case 09 - Validate the invalid login with the wrong password")
+    public void validateTheInvalidLoginWithTheWrongPassword(){
+        project2Page.login("TechGlobal", "1234");
 
-
-        usernameInputBox.sendKeys("TechGlobal");
-        passwordInputBox.sendKeys("1234");
-        loginBtn.click();
-
-        WebElement errorMessage = driver.findElement(By.id("error_message"));
-        Assert.assertTrue(errorMessage.isDisplayed());
-        Assert.assertEquals(errorMessage.getText(), "Invalid Password entered!");
+        Assert.assertTrue(project2Page.errorMessage.isDisplayed());
+        Assert.assertEquals(project2Page.errorMessage.getText(), "Invalid Password entered!");
     }
+
 
     /*
 Navigate to https://techglobal-training.com/frontend/project-2
@@ -284,20 +242,12 @@ Validate the failure message is displayed as “Invalid Username entered!” abo
      */
 
 
-    @Test (priority = 10)
-    public void validateFailureMessage(){
-        WebElement usernameInputBox = driver.findElement(By.id("username"));
-        WebElement passwordInputBox = driver.findElement(By.id("password"));
-        WebElement loginBtn = driver.findElement(By.id("login_btn"));
+    @Test(priority = 10, description = "Test Case 10 - Validate the invalid login with the wrong username and password")
+    public void validateTheInvalidLoginWithTheWrongUsernameAndPassword(){
+        project2Page.login("John", "1234");
 
-
-        usernameInputBox.sendKeys("John");
-        passwordInputBox.sendKeys("1234");
-        loginBtn.click();
-
-        WebElement errorMessage = driver.findElement(By.id("error_message"));
-        Assert.assertTrue(errorMessage.isDisplayed());
-        Assert.assertEquals(errorMessage.getText(), "Invalid Username entered!");
+        Assert.assertTrue(project2Page.errorMessage.isDisplayed());
+        Assert.assertEquals(project2Page.errorMessage.getText(), "Invalid Username entered!");
     }
 
 

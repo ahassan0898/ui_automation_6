@@ -1,44 +1,26 @@
 package utils;
 
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
 public class Waiter {
 
     public static void pause(int seconds){
-
-            try{
-                Thread.sleep(seconds* 1000);
-            }catch (InterruptedException ignored){}
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException ignored) {}
     }
 
-    public static class DropdownHandler {
 
+    public static void waitForVisibilityOfElement(WebElement element, int seconds){
+        new WebDriverWait(Driver.getDriver(), seconds).until(ExpectedConditions.visibilityOf(element));
+    }
 
-        public static void clickDropdownOption(WebElement dropdown, List<WebElement> dropdownOptions, String optionText){
-            dropdown.click();
-
-            for(WebElement dropdownOption: dropdownOptions){
-                if(dropdownOption.getText().equals(optionText)){
-                    dropdownOption.click();
-                    break;
-                }
-            }
-        }
-
-        // Methods to handle dropdowns created with <select> tag
-        public static void selectByVisibleText(WebElement dropdown, String text){
-            new Select(dropdown).selectByVisibleText(text);
-        }
-
-        public static void selectByIndex(WebElement dropdown, int index){
-            new Select(dropdown).selectByIndex(index);
-        }
-
-        public static void selectByVisibleValue(WebElement dropdown, String text){
-            new Select(dropdown).selectByValue(text);
-        }
+    public static void waitForElementToBeClickable(WebElement element, int seconds){
+        new WebDriverWait(Driver.getDriver(), seconds).until(ExpectedConditions.elementToBeClickable(element));
     }
 }

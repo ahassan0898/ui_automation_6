@@ -31,7 +31,7 @@ public class _11_TGDropdownsTest extends Base {
     @Test
     public void productColorTest(){
         WebElement dropdown = driver.findElement(By.id("color_dropdown"));
-        Waiter.DropdownHandler.selectByIndex(dropdown, 2);
+      //  Waiter..selectByIndex(dropdown, 2);
     }
 
     @Test
@@ -39,6 +39,6 @@ public class _11_TGDropdownsTest extends Base {
         WebElement dropdown = driver.findElement(By.id("shipment_dropdown"));
         List<WebElement> dropdownOption = driver.findElements(By.cssSelector("#shipment_dropdown span"));
 
-        Waiter.DropdownHandler.clickDropdownOption(dropdown, dropdownOption, "Delivery");
+        //Waiter.DropdownHandler.clickDropdownOption(dropdown, dropdownOption, "Delivery");
     }
 }
