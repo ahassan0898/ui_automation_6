@@ -7,58 +7,82 @@ import utils.Driver;
 
 public class Project3Page {
 
+        public Project3Page(){
+     PageFactory.initElements(Driver.getDriver(), this);
+}
 
-    public Project3Page(){
-        PageFactory.initElements(Driver.getDriver(), this);
-    }
+    @FindBy(css = "label:nth-child(1)>input")
+    public WebElement oneWayBtn;
 
-    @FindBy(css = "input[value='One way']")
-    public WebElement oneWayRadioButton;
+    @FindBy(css = "label:nth-child(2)>input")
+    public WebElement roundTripBtn;
 
-    @FindBy(css = "label:nth-child(2)")
-    public WebElement roundTripRadioButton;
-
-    @FindBy(xpath = "(//div[@class='field']/label)[1]")
+    @FindBy(css = ".field:nth-child(2)>label")
     public WebElement cabinClassLabel;
-    @FindBy(xpath = "(//div[@style='width: 100%;']/select)[1]")
-    public WebElement cabinClassDropdown;
 
-    @FindBy(css = "div:nth-child(3) ")
-    public WebElement fromLabel;
+    @FindBy(css = "div:nth-child(2)>div>select")
+    public WebElement cabinClassSelect;
 
-    @FindBy(css = "div:nth-child(3) > div > select")
+    @FindBy(css = ".field:nth-child(3)>label")
     public WebElement fromLabelDropDown;
 
-    @FindBy(css = "div:nth-child(4) > label")
-    public WebElement toLabel;
+    @FindBy(css = "div:nth-child(3)>div>select")
+    public WebElement fromSelectDropDown;
 
-    @FindBy(css = "div:nth-child(4) > div > select")
-    public WebElement toDropDown;
+    @FindBy(css = ".field:nth-child(4)>label")
+    public WebElement toLabelDropDown;
 
-    @FindBy(css = "div:nth-child(5) > label")
+    @FindBy(css = "div:nth-child(4)>div>select")
+    public WebElement toSelectDropDown;
+
+    @FindBy(css = ".field:nth-child(5)>label")
     public WebElement departLabel;
 
-    @FindBy(css = ".react-date-picker")
-    public WebElement datePickerDepart;
+    @FindBy(css = ".field:nth-child(5)>div")
+    public WebElement departDatePicker;
 
-    @FindBy(xpath = "(//div[@class='field']/label)[5]")
+    @FindBy(css = ".field:nth-child(6)>label")
     public WebElement returnLabel;
 
-    @FindBy(css = ".react-date-picker__inputGroup")
-    public WebElement datePickerReturn;
+    @FindBy(css = ".field:nth-child(6)>div")
+    public WebElement returnDatePicker;
 
-    @FindBy(xpath = "(//div[@class='field']/label)[6]")
+    @FindBy(css = ".field:nth-child(7)>label")
     public WebElement numberOfPassengersLabel;
 
-    @FindBy(css = "form>div>div:nth-child(7)>div")
-    public WebElement numPassengerBox;
+    @FindBy(css = "div:nth-child(7)>div>select")
+    public WebElement numberOfPassengersDropDown;
 
-    @FindBy(xpath = "(//div[@class='field']/label)[7]")
-    public WebElement passenger1Label;
+    @FindBy(css = ".field:nth-child(8)>label")
+    public WebElement passengerOneLabel;
 
-    @FindBy(css = "form>div>div:nth-child(8)>div>select")
-    public WebElement passenger1_AgeDropdown;
+    @FindBy(css = "div:nth-child(8)>div>select")
+    public WebElement passengerOneDropdown;
 
-    @FindBy(css = "button[class^='Button']")
-    public WebElement bookButton;
+    @FindBy(css = "form>div:nth-child(2)>div>button")
+    public WebElement bookBtn;
+
+    @FindBy(css = "form>div.ml-3")
+    public WebElement bookingResultMessage;
+
+    @FindBy(css = "div:nth-child(9)>div>select")
+    public WebElement passengerTwoDropdown;
+
+    @FindBy(css = ".field:nth-child(5) .control input[name='month']")
+    public WebElement departMonth;
+
+    @FindBy(css = ".field:nth-child(5) .control input[name='day']")
+    public WebElement departDay;
+
+    @FindBy(css = ".field:nth-child(5) .control input[name='year']")
+    public WebElement departYear;
+
+    @FindBy(css = ".field:nth-child(6) .control input[name='month']")
+    public WebElement returnMonth;
+
+    @FindBy(css = ".field:nth-child(6) .control input[name='day']")
+    public WebElement returnDay;
+
+    @FindBy(css = ".field:nth-child(6) .control input[name='year']")
+    public WebElement returnYear;
 }
